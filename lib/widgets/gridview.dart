@@ -5,20 +5,17 @@ import '../widgets/product_items.dart';
 import '../providers/product_provider.dart';
 
 class GridViewWidget extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-
     final productData = Provider.of<ProductProvider>(context);
     final _list = productData.itemList;
 
     return GridView.builder(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
       itemCount: _list.length,
-      itemBuilder: (BuildContext context, int index) => ProductItems(
-        title: _list[index].title,
-        imageUrl: _list[index].imageUrl,
-        id: _list[index].id,
+      itemBuilder: (BuildContext context, int index) => ChangeNotifierProvider(
+        create: (BuildContext context) => _list[index],
+        child: ProductItems(),
       ),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,

@@ -1,40 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:untitled/screens/product_details_screen.dart';
+import '../providers/product_model.dart';
+import '../providers/cart_model.dart';
 
 class ProductItems extends StatelessWidget {
-  final String id;
-  final String imageUrl;
-  final String title;
-
-  ProductItems({this.title, this.imageUrl, this.id});
+  // final String id;
+  // final String imageUrl;
+  // final String title;
+  //
+  // ProductItems({this.title, this.imageUrl, this.id});
 
   @override
   Widget build(BuildContext context) {
+    final product = Provider.of<Product>(context);
+    final cart = Provider.of<Cart>(context);
     return ClipRRect(
       borderRadius: BorderRadius.all(Radius.circular(10)),
       child: GestureDetector(
-        onTap: (){
-          Navigator.pushNamed(context, ProductDetailScreen.routeName,arguments: this.id);
+        onTap: () {
+          Navigator.pushNamed(context, ProductDetailScreen.routeName,
+              arguments: product.id);
         },
         child: GridTile(
-
           child: Image.network(
-            imageUrl,
+            product.imageUrl,
             fit: BoxFit.cover,
           ),
           footer: GridTileBar(
             backgroundColor: Colors.black54,
             title: Text(
-              title,
+              product.title,
               textAlign: TextAlign.center,
             ),
-            leading: IconButton(
-              icon: Icon(Icons.favorite_border),
-              onPressed: (){},
+            leading: Consumer<Product>(
+              builder: (context, child, s) => IconButton(
+                icon: (product.isFav == false)
+                    ? Icon(
+                        Icons.favorite_border,
+                        color: Colors.red,
+                      )
+                    : Icon(
+                        Icons.favorite,
+                        color: Colors.red,
+                      ),
+                onPressed: () {
+                  product.toggleFav();
+                },
+              ),
             ),
             trailing: IconButton(
               icon: Icon(Icons.add_shopping_cart_outlined),
-              onPressed: (){},
+              onPressed: () {
+                cart.addToCart(productId: product.id,price: product.price,title: product.title);
+              },
             ),
           ),
         ),
