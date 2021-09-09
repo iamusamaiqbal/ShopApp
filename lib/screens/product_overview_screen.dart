@@ -6,6 +6,7 @@ import '../widgets/gridview.dart';
 import '../widgets/badge.dart';
 import '../providers/cart_model.dart';
 import '../screens/cart_screen.dart';
+import '../widgets/app_drawer.dart';
 
 class ProductOverviewScreen extends StatelessWidget {
   @override
@@ -17,7 +18,7 @@ class ProductOverviewScreen extends StatelessWidget {
           PopupMenuButton(
             onSelected: (value) {
               if (value == 0) {
-                Navigator.pushNamed(context, CartScreen.routeName);
+
               } else {}
             },
             itemBuilder: (context) => [
@@ -33,11 +34,14 @@ class ProductOverviewScreen extends StatelessWidget {
             ),
             child: IconButton(
               icon: Icon(Icons.shopping_cart),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, CartScreen.routeName);
+              },
             ),
           ),
         ],
       ),
+      drawer: AppDrawer(),
       body: GridViewWidget(),
     );
   }
